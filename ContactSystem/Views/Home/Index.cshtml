@@ -1,8 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeModel
+
+@{
+    ViewData["Title"] = "Página Inicial";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Bem-Vindo!</h1>
-    <p>Página Inicial</p>
+    <h1 class="display-4">Bem-Vindo! @Model.Name</h1>
+    <p>Sistema de Controle de Contatos</p>
 </div>

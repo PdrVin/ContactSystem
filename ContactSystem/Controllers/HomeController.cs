@@ -6,16 +6,10 @@ namespace ContactSystem.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
-        return View();
+        HomeModel home = new("Pedro", "pedro.mcrescencio@gmail.com", "84 99813-0186");
+        return View(home);
     }
 
     public IActionResult Privacy()
