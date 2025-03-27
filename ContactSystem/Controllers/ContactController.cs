@@ -8,39 +8,38 @@ public class ContactController : Controller
 {
     public readonly IContactRepository _repository;
 
-    public ContactController(IContactRepository contactRepository)
-    {
+    public ContactController(IContactRepository contactRepository) =>
         _repository = contactRepository;
-    }
-    public IActionResult Index()
-    {
-        return View(_repository.GetAll());
-    }
 
-    public IActionResult Create()
-    {
-        return View();
-    }
+    public IActionResult Index() =>
+        View(_repository.GetAll());
 
-    public IActionResult Edit()
-    {
-        return View();
-    }
+    public IActionResult Create() =>
+        View();
 
-    public IActionResult DeleteConfirm()
-    {
-        return View();
-    }
+    public IActionResult Edit(int id) =>
+        View(_repository.GetById(id));
 
-    public IActionResult Delete()
+    public IActionResult DeleteConfirm(int id) =>
+        View(_repository.GetById(id));
+
+    public IActionResult Delete(int id)
     {
-        return View();
+        _repository.Delete(id);
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
     public IActionResult Create(ContactModel contact)
     {
         _repository.Add(contact);
+        return RedirectToAction("Index");
+    }
+
+    [HttpPut]
+    public IActionResult Edit(ContactModel contact)
+    {
+        _repository.Update(contact);
         return RedirectToAction("Index");
     }
 }

@@ -19,5 +19,4 @@ public class HomeModel
         Email = email;
         Phone = phone;
     }
-
 }
