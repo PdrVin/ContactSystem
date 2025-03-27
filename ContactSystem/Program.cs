@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using ContactSystem.Context;
+using ContactSystem.Repositories;
+using ContactSystem.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<SystemDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 var app = builder.Build();
 

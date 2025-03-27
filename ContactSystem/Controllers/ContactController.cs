@@ -1,27 +1,46 @@
+using ContactSystem.Models;
+using ContactSystem.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactSystem.Controllers;
 
 public class ContactController : Controller
 {
-    public ActionResult Index()
+    public readonly IContactRepository _repository;
+
+    public ContactController(IContactRepository contactRepository)
+    {
+        _repository = contactRepository;
+    }
+    public IActionResult Index()
+    {
+        return View(_repository.GetAll());
+    }
+
+    public IActionResult Create()
     {
         return View();
     }
 
-    public ActionResult Create()
+    public IActionResult Edit()
     {
         return View();
     }
 
-    public ActionResult Edit()
+    public IActionResult DeleteConfirm()
     {
         return View();
     }
 
-    public ActionResult DeleteConfirm()
+    public IActionResult Delete()
     {
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(ContactModel contact)
+    {
+        _repository.Add(contact);
+        return RedirectToAction("Index");
     }
 }
-
