@@ -365,3 +365,5 @@ FodyWeavers.xsd
 # Databases
 Migrations/
 *.db
+*.db-shm
+*.db-wal

@@ -9,8 +9,24 @@
         <a class="btn btn-primary" role="button" asp-controller="Contact" asp-action="Create">Adicionar Novo Contato</a>
     </div><br>
 
+    @if (TempData["MessageSuccess"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["MessageSuccess"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+
+    @if (TempData["MessageError"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["MessageError"]
+            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+        </div>
+    }
+
     <h2 class="display-4">Lista de Contatos</h2>
-    <table class="table">
+    <table class="table" id="table-contact">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -23,10 +39,11 @@
         <tbody>
             @if (Model != null && Model.Any())
             {
+                int rowNumber = 1;
                 foreach (ContactModel contact in Model)
                 {
                     <tr>
-                        <th scope="row">@contact.Id</th>
+                        <th scope="row">@rowNumber</th>
                         <td>@contact.Name</td>
                         <td>@contact.Email</td>
                         <td>@contact.Phone</td>
@@ -39,6 +56,7 @@
                             </div>
                         </td>
                     </tr>
+                    rowNumber++;
                 }
             }
         </tbody>

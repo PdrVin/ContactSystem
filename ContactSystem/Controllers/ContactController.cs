@@ -25,21 +25,61 @@ public class ContactController : Controller
 
     public IActionResult Delete(int id)
     {
-        _repository.Delete(id);
-        return RedirectToAction("Index");
+        try
+        {
+            if (_repository.Delete(id))
+                TempData["MessageSuccess"] = "Contato deletado com sucesso.";
+            else
+                TempData["MessageError"] = $"Erro no processo de Exclusão.";
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception error)
+        {
+            TempData["MessageError"] = $"Erro no processo de Exclusão: {error.Message}";
+            return RedirectToAction("Index");
+        }
     }
 
     [HttpPost]
     public IActionResult Create(ContactModel contact)
     {
-        _repository.Add(contact);
-        return RedirectToAction("Index");
+
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _repository.Add(contact);
+                TempData["MessageSuccess"] = "Contato cadastrado com sucesso.";
+                return RedirectToAction("Index");
+            }
+            return View(contact);
+        }
+        catch (Exception error)
+        {
+            TempData["MessageError"] = $"Erro no processo de Cadastro: {error.Message}";
+            return RedirectToAction("Index");
+        }
     }
 
-    [HttpPut]
+
+    [HttpPost]
     public IActionResult Edit(ContactModel contact)
     {
-        _repository.Update(contact);
-        return RedirectToAction("Index");
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _repository.Update(contact);
+                TempData["MessageSuccess"] = "Contato atualizado com sucesso.";
+                return RedirectToAction("Index");
+            }
+            return View(contact);
+        }
+        catch (Exception error)
+        {
+            TempData["MessageError"] = $"Erro no processo de Atualização: {error.Message}";
+            return RedirectToAction("Index");
+        }
     }
 }
