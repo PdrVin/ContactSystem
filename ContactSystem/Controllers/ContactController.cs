@@ -49,7 +49,7 @@ public class ContactController : Controller
         {
             if (ModelState.IsValid)
             {
-                _repository.Add(contact);
+                contact = _repository.Add(contact);
                 TempData["MessageSuccess"] = "Contato cadastrado com sucesso.";
                 return RedirectToAction("Index");
             }

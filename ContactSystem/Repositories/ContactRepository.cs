@@ -10,19 +10,19 @@ public class ContactRepository : IContactRepository
     public ContactRepository(SystemDbContext context) =>
         _context = context;
 
-    public ContactModel Add(ContactModel contact)
-    {
-        _context.Contacts.Add(contact);
-        _context.SaveChanges();
-        return contact;
-    }
-
     public List<ContactModel> GetAll() =>
         _context.Contacts.ToList();
 
     public ContactModel GetById(int id) =>
         _context.Contacts.FirstOrDefault(x => x.Id == id) ??
             throw new Exception("NotFound");
+
+    public ContactModel Add(ContactModel contact)
+    {
+        _context.Contacts.Add(contact);
+        _context.SaveChanges();
+        return contact;
+    }
 
     public ContactModel Update(ContactModel contact)
     {
@@ -33,13 +33,13 @@ public class ContactRepository : IContactRepository
 
         _context.Contacts.Update(entity);
         _context.SaveChanges();
-        return contact;
+        return entity;
     }
 
     public bool Delete(int id)
     {
         ContactModel entity = GetById(id) ?? throw new Exception("NotFound");
-        
+
         _context.Contacts.Remove(entity);
         _context.SaveChanges();
         return true;
