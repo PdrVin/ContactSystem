@@ -10,6 +10,11 @@ public class UserRepository : IUserRepository
     public UserRepository(SystemDbContext context) =>
         _context = context;
 
+    public UserModel GetByLogin(string login) =>
+        _context.Users.FirstOrDefault(entry => 
+            entry.Login.Equals(login, StringComparison.CurrentCultureIgnoreCase)) ??
+                throw new Exception("NotFound");
+
     public List<UserModel> GetAll() =>
         _context.Users.ToList();
 

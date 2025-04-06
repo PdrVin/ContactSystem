@@ -30,7 +30,7 @@ public class ContactController : Controller
             if (_repository.Delete(id))
                 TempData["MessageSuccess"] = "Contato deletado com sucesso.";
             else
-                TempData["MessageError"] = $"Erro no processo de Exclusão.";
+                TempData["MessageError"] = "Erro no processo de Exclusão.";
 
             return RedirectToAction("Index");
         }
@@ -44,16 +44,13 @@ public class ContactController : Controller
     [HttpPost]
     public IActionResult Create(ContactModel contact)
     {
-
         try
         {
-            if (ModelState.IsValid)
-            {
-                contact = _repository.Add(contact);
-                TempData["MessageSuccess"] = "Contato cadastrado com sucesso.";
-                return RedirectToAction("Index");
-            }
-            return View(contact);
+            if (!ModelState.IsValid) return View(contact);
+
+            contact = _repository.Add(contact);
+            TempData["MessageSuccess"] = "Contato cadastrado com sucesso.";
+            return RedirectToAction("Index");
         }
         catch (Exception error)
         {
@@ -62,19 +59,16 @@ public class ContactController : Controller
         }
     }
 
-
     [HttpPost]
     public IActionResult Edit(ContactModel contact)
     {
         try
         {
-            if (ModelState.IsValid)
-            {
-                _repository.Update(contact);
-                TempData["MessageSuccess"] = "Contato atualizado com sucesso.";
-                return RedirectToAction("Index");
-            }
-            return View(contact);
+            if (!ModelState.IsValid) return View(contact);
+
+            contact = _repository.Update(contact);
+            TempData["MessageSuccess"] = "Contato atualizado com sucesso.";
+            return RedirectToAction("Index");
         }
         catch (Exception error)
         {
