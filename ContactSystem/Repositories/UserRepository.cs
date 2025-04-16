@@ -11,8 +11,8 @@ public class UserRepository : IUserRepository
         _context = context;
 
     public UserModel GetByLogin(string login) =>
-        _context.Users.FirstOrDefault(entry => 
-            entry.Login.Equals(login, StringComparison.CurrentCultureIgnoreCase)) ??
+        _context.Users.FirstOrDefault(user => 
+            user.Login.ToUpper() == login.ToUpper()) ??
                 throw new Exception("NotFound");
 
     public List<UserModel> GetAll() =>

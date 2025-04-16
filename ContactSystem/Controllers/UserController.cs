@@ -1,9 +1,11 @@
+using ContactSystem.Filters;
 using ContactSystem.Interfaces;
 using ContactSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactSystem.Controllers;
 
+[OnlyAdminPage]
 public class UserController : Controller
 {
     public readonly IUserRepository _repository;
@@ -23,7 +25,6 @@ public class UserController : Controller
     public IActionResult DeleteConfirm(int id) =>
         View(_repository.GetById(id));
 
-    [HttpDelete]
     public IActionResult Delete(int id)
     {
         try

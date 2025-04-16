@@ -1,25 +1,17 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ContactSystem.Models;
+using ContactSystem.Filters;
 
 namespace ContactSystem.Controllers;
 
+[LoggedUserPage]
 public class HomeController : Controller
 {
-    public IActionResult Index()
-    {
-        HomeModel home = new("Pedro", "pedro.mcrescencio@gmail.com", "84 99813-0186");
-        return View(home);
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    public IActionResult Index() =>
+        View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    public IActionResult Error() =>
+        View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 }
