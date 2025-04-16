@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactSystem.Context;
 using ContactSystem.Repositories;
 using ContactSystem.Interfaces;
+using ContactSystem.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<SystemDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILogSession, LogSession>();
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -27,10 +37,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

@@ -23,7 +23,6 @@ public class UserController : Controller
     public IActionResult DeleteConfirm(int id) =>
         View(_repository.GetById(id));
 
-    [HttpDelete]
     public IActionResult Delete(int id)
     {
         try
