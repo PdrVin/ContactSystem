@@ -1,9 +1,11 @@
 using ContactSystem.Models;
 using ContactSystem.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using ContactSystem.Filters;
 
 namespace ContactSystem.Controllers;
 
+[LoggedUserPage]
 public class ContactController : Controller
 {
     public readonly IContactRepository _repository;

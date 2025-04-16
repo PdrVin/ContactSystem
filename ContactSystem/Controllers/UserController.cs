@@ -1,9 +1,11 @@
+using ContactSystem.Filters;
 using ContactSystem.Interfaces;
 using ContactSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactSystem.Controllers;
 
+[OnlyAdminPage]
 public class UserController : Controller
 {
     public readonly IUserRepository _repository;
