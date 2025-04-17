@@ -10,5 +10,6 @@ public interface IUserRepository
     List<UserModel> GetAll();
     UserModel GetById(int id);
     UserModel Update(UserModel user);
+    UserModel UpdatePassword(EditPasswordModel editPassword);
     bool Delete(int id);
 }

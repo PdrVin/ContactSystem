@@ -1,0 +1,51 @@
+@model EditPasswordModel
+@{
+    ViewData["Title"] = "Alterar Senha do Usuário";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Alterar Senha do Usuário</h2>
+</div>
+
+@if (TempData["MessageSuccess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MessageSuccess"]
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+    </div>
+}
+
+@if (TempData["MessageError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MessageError"]
+        <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
+    </div>
+}
+
+<form asp-controller="EditPassword" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id">
+
+    <div class="form-group mb-3">
+        <label for="currentPassword" class="form-label">Senha Atual</label>
+        <input type="password" asp-for="CurrentPassword" class="form-control"
+            placeholder="Digite a Senha Atual do Usuário">
+        @Html.ValidationMessageFor(x => x.CurrentPassword)
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="newPassword" class="form-label">Nova Senha</label>
+        <input type="password" asp-for="NewPassword" class="form-control" placeholder="Digite a Nova Senha do Usuário">
+        @Html.ValidationMessageFor(x => x.NewPassword)
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="confirmNewPassword" class="form-label">Confirmar Nova Senha</label>
+        <input type="password" asp-for="ConfirmNewPassword" class="form-control"
+            placeholder="Digite Novamente a Nova Senha do Usuário">
+        @Html.ValidationMessageFor(x => x.ConfirmNewPassword)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a class="btn btn-secondary" role="button" asp-controller="home" asp-action="Index">Voltar</a>
+</form>

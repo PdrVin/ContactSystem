@@ -38,7 +38,8 @@ public class UserRepository : IUserRepository
 
     public UserModel Update(UserModel user)
     {
-        UserModel entity = GetById(user.Id) ?? throw new Exception("NotFound");
+        UserModel entity = GetById(user.Id) ??
+            throw new Exception("NotFound");
 
         entity.Name = user.Name;
         entity.Login = user.Login;
@@ -51,9 +52,29 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public UserModel UpdatePassword(EditPasswordModel editPassword)
+    {
+        UserModel user = GetById(editPassword.Id) ??
+            throw new Exception("NotFound");
+
+        if (!user.IsPasswordValid(editPassword.CurrentPassword))
+            throw new Exception("Senha Inválida.");
+
+        if (user.IsPasswordValid(editPassword.NewPassword))
+            throw new Exception("Nova Senha deve ser diferente da Atual.");
+
+        user.SetNewPassword(editPassword.NewPassword);
+        user.UpdatedAt = DateTime.Now;
+
+        _context.Users.Update(user);
+        _context.SaveChanges();
+        return user;
+    }
+
     public bool Delete(int id)
     {
-        UserModel entity = GetById(id) ?? throw new Exception("NotFound");
+        UserModel entity = GetById(id) ??
+            throw new Exception("NotFound");
 
         _context.Users.Remove(entity);
         _context.SaveChanges();
