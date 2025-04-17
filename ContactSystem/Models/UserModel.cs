@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ContactSystem.Enums;
+using ContactSystem.Helper;
 
 namespace ContactSystem.Models;
 
@@ -27,5 +28,15 @@ public class UserModel
     public DateTime? UpdatedAt { get; set; }
 
     public bool IsPasswordValid(string password) =>
-        Password == password;
+        Password == password.GenerateHash();
+
+    public void SetHashPassword() =>
+        Password = Password.GenerateHash();
+
+    public string GenerateNewPassword()
+    {
+        string newPassword = Guid.NewGuid().ToString().Substring(0, 8);
+        Password = newPassword.GenerateHash();
+        return newPassword;
+    }
 }

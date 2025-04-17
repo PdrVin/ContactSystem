@@ -15,6 +15,12 @@ public class UserRepository : IUserRepository
             user.Login.ToUpper() == login.ToUpper()) ??
                 throw new Exception("NotFound");
 
+    public UserModel GetByLoginAndEmail(string login, string email) =>
+        _context.Users.FirstOrDefault(user => 
+            user.Login.ToUpper() == login.ToUpper() &&
+            user.Email.ToUpper() == email.ToUpper()) ??
+                throw new Exception("NotFound");
+                
     public List<UserModel> GetAll() =>
         _context.Users.ToList();
 
