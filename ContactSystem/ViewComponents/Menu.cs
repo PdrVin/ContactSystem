@@ -8,10 +8,10 @@ public class Menu : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        string userSession = HttpContext.Session.GetString("userLoggedSession");
+        string userSession = await Task.Run(() => HttpContext.Session.GetString("userLoggedSession"));
 
         if (string.IsNullOrEmpty(userSession)) return null;
-        
+
         UserModel user = JsonSerializer.Deserialize<UserModel>(userSession);
 
         return View(user);

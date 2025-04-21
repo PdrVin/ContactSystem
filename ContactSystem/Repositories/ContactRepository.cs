@@ -10,8 +10,8 @@ public class ContactRepository : IContactRepository
     public ContactRepository(SystemDbContext context) =>
         _context = context;
 
-    public List<ContactModel> GetAll() =>
-        _context.Contacts.ToList();
+    public List<ContactModel> GetAll(int userId) =>
+        _context.Contacts.Where(c => c.UserId == userId).ToList();
 
     public ContactModel GetById(int id) =>
         _context.Contacts.FirstOrDefault(x => x.Id == id) ??

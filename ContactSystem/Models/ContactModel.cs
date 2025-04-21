@@ -16,4 +16,7 @@ public class ContactModel
     [Required(ErrorMessage = "Campo Obrigatório.")]
     [Phone(ErrorMessage = "Telefone inválido.")]
     public string Phone { get; set; }
+
+    public int? UserId { get; set; }
+    public UserModel User { get; set; }
 }

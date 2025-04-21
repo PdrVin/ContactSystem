@@ -1,3 +1,4 @@
+using ContactSystem.Context.Map;
 using ContactSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ public class SystemDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new ContactMap());
+
         base.OnModelCreating(modelBuilder);
     }
 }

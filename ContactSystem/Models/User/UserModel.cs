@@ -26,6 +26,8 @@ public class UserModel
 
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    
+    public virtual List<ContactModel> Contacts { get; set; }
 
     public bool IsPasswordValid(string password) =>
         Password == password.GenerateHash();

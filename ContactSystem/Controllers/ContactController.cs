@@ -2,6 +2,7 @@ using ContactSystem.Models;
 using ContactSystem.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ContactSystem.Filters;
+using ContactSystem.Helper;
 
 namespace ContactSystem.Controllers;
 
@@ -9,12 +10,19 @@ namespace ContactSystem.Controllers;
 public class ContactController : Controller
 {
     public readonly IContactRepository _repository;
+    public readonly ILogSession _session;
 
-    public ContactController(IContactRepository contactRepository) =>
+    public ContactController(IContactRepository contactRepository, ILogSession session)
+    {
         _repository = contactRepository;
+        _session = session;
+    }
 
-    public IActionResult Index() =>
-        View(_repository.GetAll());
+    public IActionResult Index()
+    {
+        UserModel loggedUser = _session.SearchUserSession();
+        return View(_repository.GetAll(loggedUser.Id));
+    }
 
     public IActionResult Create() =>
         View();
@@ -50,7 +58,10 @@ public class ContactController : Controller
         {
             if (!ModelState.IsValid) return View(contact);
 
+            UserModel loggedUser = _session.SearchUserSession();
+            contact.UserId = loggedUser.Id;
             contact = _repository.Add(contact);
+
             TempData["MessageSuccess"] = "Contato cadastrado com sucesso.";
             return RedirectToAction("Index");
         }
@@ -67,6 +78,9 @@ public class ContactController : Controller
         try
         {
             if (!ModelState.IsValid) return View(contact);
+
+            UserModel loggedUser = _session.SearchUserSession();
+            contact.UserId = loggedUser.Id;
 
             contact = _repository.Update(contact);
             TempData["MessageSuccess"] = "Contato atualizado com sucesso.";
