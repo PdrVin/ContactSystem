@@ -1,28 +1,30 @@
 using ContactSystem.Context;
 using ContactSystem.Interfaces;
 using ContactSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContactSystem.Repositories;
 
 public class UserRepository : IUserRepository
 {
     private readonly SystemDbContext _context;
+
     public UserRepository(SystemDbContext context) =>
         _context = context;
 
     public UserModel GetByLogin(string login) =>
-        _context.Users.FirstOrDefault(user => 
+        _context.Users.FirstOrDefault(user =>
             user.Login.ToUpper() == login.ToUpper()) ??
                 throw new Exception("NotFound");
 
     public UserModel GetByLoginAndEmail(string login, string email) =>
-        _context.Users.FirstOrDefault(user => 
+        _context.Users.FirstOrDefault(user =>
             user.Login.ToUpper() == login.ToUpper() &&
             user.Email.ToUpper() == email.ToUpper()) ??
                 throw new Exception("NotFound");
-                
+
     public List<UserModel> GetAll() =>
-        _context.Users.ToList();
+        _context.Users.Include(u => u.Contacts).ToList();
 
     public UserModel GetById(int id) =>
         _context.Users.FirstOrDefault(x => x.Id == id) ??
@@ -31,6 +33,8 @@ public class UserRepository : IUserRepository
     public UserModel Add(UserModel user)
     {
         user.CreatedAt = DateTime.Now;
+        user.SetHashPassword();
+
         _context.Users.Add(user);
         _context.SaveChanges();
         return user;

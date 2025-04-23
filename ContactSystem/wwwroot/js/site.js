@@ -6,6 +6,22 @@
 $(document).ready(function () {
     getDataTable('#table-contact');
     getDataTable('#table-user');
+
+    $(".btn-total-contacts").click(function () {
+        var userId = $(this).attr("user-id");
+
+        $.ajax({
+            type: 'GET',
+            url: "User/ListContactsByUserId/" + userId,
+            success: function (result) {
+                $("#listUserContacts").html(result);
+                setTimeout(function () {
+                    getDataTable("#table-user-contacts");
+                    $("#modalUserContacts").modal();
+                }, 100);
+            },
+        })
+    });
 })
 
 function getDataTable(id) {

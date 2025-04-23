@@ -35,7 +35,7 @@ class Email : IEmail
 
             return true;
         }
-        catch (Exception error)
+        catch (Exception)
         {
             return false;
         }
